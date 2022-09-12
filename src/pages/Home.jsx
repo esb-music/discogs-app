@@ -1,47 +1,64 @@
-import { Link } from "react-router-dom";
+/**
+ * @author Burkhardt Renz
+ */
+
+import React from 'react';
+import {Link, useNavigate} from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import CardGroup from 'react-bootstrap/CardGroup';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
-const discogs = [
-  {
-    "info": "Miles Davis",
-    "name": "Miles Davis discography",
-    "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Miles_Davis_by_Palumbo.jpg/220px-Miles_Davis_by_Palumbo.jpg",
-    "alt": "Miles Davis - 1986.jpg",
-    "data": "miles-dataset",
-    "url": "https://en.wikipedia.org/wiki/Miles_Davis"
-  },
-  {
-    "info": "Cream",
-    "name": "Cream discography",
-    "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Cream_on_Fanclub_1968.png/250px-Cream_on_Fanclub_1968.png",
-    "alt": "Cream logo",
-    "data": "cream-dataset",
-    "url": "https://en.wikipedia.org/wiki/Cream_(band)"
-  }
-];
+import {Header, Footer} from '../components';
+import {dataService} from '../services';
 
-function getCardGroup() {
+const CardGrid = () => {
+  const discogs = dataService.getDiscogs();
   return (
-    <CardGroup>
-      {discogs.map(discog => (
-        <Card>
-          <Card.Title>{discog.name}</Card.Title>
-        </Card>))}
-    </CardGroup>
-  )
-}
-
-function Home() {
-  return (
-    <div>
-      <h1>This is the home page</h1>
-      <Link to="album">Click to view our album page</Link>
-      <Link to="search">Click to view our search page</Link>
-      <Link to="howto">Click to view our howto page</Link>
-      {getCardGroup()}
-    </div>
+    <Row xs={1} sm={2} className="g-4">
+      <>{discogs.map(discog => (
+        <Col key={discog.key}>
+          <Card style={{heigth: "100%"}}>
+            <Card.Img variant="top" src={discog.img} alt={discog.alt} />
+            <Card.Body>
+              <Card.Title><a href={discog.wiki} target='_blank'
+                             className="link-dark">{discog.name}</a></Card.Title>
+              {discog.active === 1 && <Link to={"/" + discog.key}>
+                <Button variant="outline-primary">Explore »</Button>
+              </Link>}
+              {discog.active === 0 && <Link to="/">
+                <Button variant="outline-primary">Coming soon</Button>
+              </Link>}
+            </Card.Body>
+          </Card>
+        </Col>))}</>
+    </Row>
   );
 }
 
-export default Home;
+const Title = () => {
+  return (
+    <Container fluid className="p-5">
+      <h1 className="display-4">Discographies</h1>
+      <p className="lead">Explore the discographies of some of the most
+        famous musicians</p>
+    </Container>
+  );
+}
+
+export const Home = () => {
+
+  const navigate = useNavigate();
+
+  return (
+    <Container>
+      {Header("home", navigate)}
+      <br/>
+      <Title/>
+      <CardGrid/>
+      <br/>
+      <Footer/>
+    </Container>
+  );
+}
