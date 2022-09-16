@@ -41,11 +41,11 @@ export const Header = (page, navigate) => {
             className="d-inline-block align-top"
             alt="Discogs-app logo"
           />
-          &nbsp;&nbsp;{brandText}
         </Navbar.Brand>
-          <Nav className="ms-auto">
-            {naviPart(page)}
-          </Nav>
+        <Nav className="fs-5">{brandText}</Nav>
+        <Nav className="ms-auto">
+          {naviPart(page)}
+        </Nav>
       </Container>
     </Navbar>
   );

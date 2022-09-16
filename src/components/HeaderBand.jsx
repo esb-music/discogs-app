@@ -54,8 +54,8 @@ export const HeaderBand = (page, key, brandText, navigate) => {
             className="d-inline-block align-top"
             alt="Discogs-app logo"
           />
-          &nbsp;&nbsp;{brandText}
         </Navbar.Brand>
+        <Nav className="fs-5">{brandText}</Nav>
         <Navbar.Toggle/>
         <Navbar.Collapse>
           <Nav className="ms-auto">
