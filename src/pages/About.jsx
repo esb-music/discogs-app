@@ -40,13 +40,13 @@ export const About = () => {
       for each of the discographies; then there are 3 JSON files describing albums, musicians and tracks.<br/>
       It is easiest to create these files using the companion project <a
         href="https://github.com/esb-music/discogs-db"
-        target="_blank"><i>discogs-db</i></a>. The data are stored in a SQLite database and the JSON files
+        target="_blank"><em>discogs-db</em></a>. The data are stored in a SQLite database and the JSON files
       are generated from it.</p>
     <h4>Data sources</h4>
     <p>There are comprehensive online repositiories and data bases like
       <a href="https://musicbrainz.org"
          target="_blank">MusicBrainz</a> or <a
-        href="https://www.discogs.com" i target="_blank">Discogs</a>. But
+        href="https://www.discogs.com" target="_blank">Discogs</a>. But
       our preferred sources are
       <a href="https://en.wikipedia.org/wiki/Main_page" target="_blank">Wikipedia</a> and
       our own CD collection.</p>
