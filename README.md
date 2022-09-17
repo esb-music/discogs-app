@@ -13,7 +13,7 @@ data for esb-music.github.io.
 - [Vite](https://vitejs.dev)
 - [React](https://reactjs.org)
 - [react-router](https://github.com/remix-run/react-router#readme)
-- Hack static routes ion github [spa-github-pages](https://github.com/rafgraph/spa-github-pages)
+- Hack for static routes on github [spa-github-pages](https://github.com/rafgraph/spa-github-pages)
 - [Bootstrap](https://getbootstrap.com)
 - [React Bootstrap](https://react-bootstrap.github.io)
 - [Font Awesome](https://fontawesome.com)
