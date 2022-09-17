@@ -47,8 +47,7 @@ export const About = () => {
       <a href="https://musicbrainz.org"
          target="_blank">MusicBrainz</a> or <a
         href="https://www.discogs.com" target="_blank">Discogs</a>. But
-      our preferred sources are
-      <a href="https://en.wikipedia.org/wiki/Main_page" target="_blank">Wikipedia</a> and
+      our preferred sources are <a href="https://en.wikipedia.org/wiki/Main_page" target="_blank">Wikipedia</a> and
       our own CD collection.</p>
     <br/>
     <Footer/>
