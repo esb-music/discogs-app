@@ -73,6 +73,18 @@ export const dataService = ((() => {
     return albums2.filter((album) => album.tracks.length > 0);
   }
 
+  let _getPartnersOfMusician = (name) => {
+    let performing = _desc.tracks.flatMap((album) => {
+      return album.tracks.map((track) => {
+        return track.performing.map((entry) => entry.name)
+      })});
+    let performingWith = performing.filter((entry) => {return entry.includes(name)});
+    let allPartners = new Set(performingWith.flat());
+    allPartners.delete(name);
+
+    return Array.from(allPartners);
+  }
+
   return {
     setDiscogs: _setDiscogs,
     getNameByKey: _getNameByKey,
@@ -83,6 +95,7 @@ export const dataService = ((() => {
     getTracksOfAlbum: _getTracksOfAlbum,
     getMusicians: _getMusicians,
     getMusicianByName: _getMusiciansByName,
-    getAlbumsOfMusician: _getAlbumsOfMusician
+    getAlbumsOfMusician: _getAlbumsOfMusician,
+    getPartnersOfMusician: _getPartnersOfMusician
   };
 })());
