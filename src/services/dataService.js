@@ -4,7 +4,7 @@
  * descriptions are loaded into the service by setXXX
  */
 
-export const dataService = ((() => {
+export const dataService = (() => {
 
   let _discogs;
   let _desc;
@@ -23,8 +23,6 @@ export const dataService = ((() => {
 
   // Desc
   let _setDesc = (desc) => {
-    console.log("setDesc")
-    console.log(desc)
     _desc = desc
     return true
   }
@@ -33,7 +31,6 @@ export const dataService = ((() => {
   let _getAlbums = () => _desc.albums
 
   let _getAlbumByTitle = (title) => {
-    console.log(title)
     for (const album of _desc.albums) {
       if (album.title === title) { return album }
     }
@@ -57,20 +54,32 @@ export const dataService = ((() => {
     return null
   }
 
-  let _getAlbumsOfMusician = (name) => {
-    // replace performing by boolean indicating the musician performing on the track
+  let _getAlbumsOnCriteria = (filterfn, predicatefn) => {
+    // albums where performing musicians fullfill filterfn
     let albums1 = _desc.tracks.map((album) => {return {album: album.title,
       tracks: album.tracks.map((track) => {
         return {tno: track.tno, title: track.title,
-          performing: track.performing.map((entry) => entry.name).includes(name)
+          performing: track.performing.map((entry) => entry.name).filter(elem => filterfn(elem))
         }})}})
 
-    // albums with the tracks where the musician performs
+    // albums with the tracks where the number of performing musicians is according to predicatefn
     let albums2 = albums1.map((album) => {return {album: album.album,
+      tracks: album.tracks.map((track) => {
+        return {tno: track.tno, title: track.title,
+          performing: predicatefn(track.performing.length)}})}})
+
+    // albums with the tracks where performing is true
+    let albums3 = albums2.map((album) => {return {album: album.album,
       tracks: album.tracks.filter((track) => track.performing)}})
 
-    // just the albums with nonempty tracks
-    return albums2.filter((album) => album.tracks.length > 0);
+    // return the albums with tracks
+    return albums3.filter((album) => album.tracks.length > 0);
+  }
+
+  let _getAlbumsOfMusician = (name) => {
+    let filterfn = (elem) => elem === name;
+    let predicatefn = (length) => length === 1;
+    return _getAlbumsOnCriteria(filterfn, predicatefn);
   }
 
   let _getPartnersOfMusician = (name) => {
@@ -85,6 +94,12 @@ export const dataService = ((() => {
     return Array.from(allPartners);
   }
 
+  let _getAlbumsOfPartners = (name, partner) => {
+    let filterfn = (elem) => elem === name || elem === partner;
+    let predicatefn = (length) => length === 2;
+    return _getAlbumsOnCriteria(filterfn, predicatefn);
+  }
+
   return {
     setDiscogs: _setDiscogs,
     getNameByKey: _getNameByKey,
@@ -96,6 +111,7 @@ export const dataService = ((() => {
     getMusicians: _getMusicians,
     getMusicianByName: _getMusiciansByName,
     getAlbumsOfMusician: _getAlbumsOfMusician,
-    getPartnersOfMusician: _getPartnersOfMusician
+    getPartnersOfMusician: _getPartnersOfMusician,
+    getAlbumsOfPartners: _getAlbumsOfPartners
   };
-})());
+})();

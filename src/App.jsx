@@ -13,7 +13,7 @@ export const App = () => {
   const [data, loading, error] = loadDiscogs();
 
   return (
-    <>{console.log("App rendering")}
+    <>
       {loading ? ("loading...") :
         (error ? (<Alert variant="danger">Could not load revision.json and discogs.json!</Alert>) :
           (<div className="App width:100%">

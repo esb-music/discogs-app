@@ -3,7 +3,6 @@ import {useParams} from 'react-router';
 import {useNavigate} from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
 
 import {Footer, ErrorPage, MusicianCard, AlbumList} from '../components';
 import {loadDesc} from '../effects';
@@ -12,22 +11,19 @@ import {HeaderBand} from "../components/HeaderBand.jsx";
 
 const Musician = () => {
   const {key, name} = useParams();
-  console.log("key: " + key);
-  console.log("name: " + name);
   const [data, loading, error] = loadDesc(key);
   const discogName = dataService.getNameByKey(key);
   const navigate = useNavigate();
 
+  const partnerDefault = "Choose musician:"
   const [kindOfTracks, setkindOfTracks] = useState("all");
-  const [partner, setPartner] = useState("");
+  const [partner, setPartner] = useState(partnerDefault);
 
   const handleRadio = e => {
-    console.log(e.target.value);
     setkindOfTracks(e.target.value);
   };
 
   const handlePartner = e => {
-    console.log(e.target.value);
     setPartner(e.target.value);
   };
 
@@ -55,20 +51,24 @@ const Musician = () => {
                   <Form.Check inline className="text-start" name="partner?" type="radio" value="all" label="All tracks"
                               onChange={handleRadio} checked={kindOfTracks === "all"}/>
                   <Form.Check inline className="text-start" name="partner?" type="radio" value="partner"
-                              label="Tracks performing together with"
+                              label="Tracks performed together with"
                               onChange={handleRadio} checked={kindOfTracks === "partner"}/>
                 </div>
                 {(kindOfTracks === "all") ? "" :
                   <div className="d-flex justify-content-center">
-                    <Form.Select className="w-50" type="text" onChange={handlePartner} readOnly>
-                      <option key="-1">Choose musician:</option>
+                    <div className="row col-sm-10 col-md-6">
+                    <Form.Select type="text" onChange={handlePartner} readOnly>
+                      <option key="-1">{partnerDefault}</option>
                       {dataService.getPartnersOfMusician(name).map((musician, index) =>
                           <option key={index}>{musician}</option>)}
-                    </Form.Select></div>
+                    </Form.Select></div></div>
                 }
               </Form>
               <br/>
-              {AlbumList(dataService.getAlbumsOfMusician(name), key)}
+              {(kindOfTracks === "all" || partner === "Choose musician:") ?
+              AlbumList(dataService.getAlbumsOfMusician(name), key) :
+              AlbumList(dataService.getAlbumsOfPartners(name, partner), key)
+              }
               <br/><br/><br/>
               {Footer()}
             </Container> :

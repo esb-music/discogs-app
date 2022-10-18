@@ -8,7 +8,6 @@ export function loadDesc(key) {
 
   async function fetchFile(url) {
     try {
-      console.log(`try to fetch ${url}`);
       return await fetch(url).then((res) => res.json());
     } catch (err) {
       console.log(`Error fetching ${url}`);
@@ -23,7 +22,6 @@ export function loadDesc(key) {
       let localKey = localStore.getItem("key");
       if (!localKey || localKey !== key) {
         // Fetch desc from /data
-        console.log("Fetching discogDesc from /data");
         const files = ["albums", "tracks", "musicians"];
         let promises;
         let result;

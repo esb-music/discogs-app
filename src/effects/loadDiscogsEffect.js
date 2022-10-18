@@ -32,7 +32,6 @@ const loadDiscogs = () => {
 
       // check whether the local storage must be cleared
       let remoteRevision = await fetchRevisionObject();
-      console.log("remoteRevision: " + remoteRevision.rev);
       let localRevision = localStore.getItem("revision");
       if (!localRevision || localRevision.rev < remoteRevision.rev) {
         localStore.clear();
@@ -42,13 +41,11 @@ const loadDiscogs = () => {
       // fetch discogs from /data if not in local storage
       let localdata = localStore.getItem("discogs");
       if (!localdata) {
-        console.log("fetching remote: " + discogsPath);
         const json = await fetch(discogsPath).then((res) => res.json());
         setData(json);
         setLoading(false);
         localStore.setItem("discogs", json);
       } else {
-        console.log("loading local from key discogs");
         setData(localdata);
         setLoading(false);
       }

@@ -10,17 +10,12 @@ import {dataService} from '../services';
 import {HeaderBand} from "../components/HeaderBand.jsx";
 
 export const Musicians = () => {
-  console.log("Musicians here");
   const {key} = useParams();
-  console.log(key);
   const [data, loading, error] = loadDesc(key);
   const name = dataService.getNameByKey(key);
-  console.log(loading);
-  console.log(error);
   const navigate = useNavigate();
 
   const switchToMusician = ((timelineItem) => {
-    console.log(timelineItem);
     navigate("/" + key + "/musicians/" + timelineItem.cardTitle);
   })
 
