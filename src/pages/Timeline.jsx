@@ -23,7 +23,6 @@ export const Timeline = () => {
   const navigate = useNavigate();
 
   const switchToAlbum = ((timelineItem) => {
-    console.log(timelineItem);
     navigate("/" + key + "/" + timelineItem.cardTitle);
   })
 
