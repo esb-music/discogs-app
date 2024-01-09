@@ -5,6 +5,6 @@
 
 export const constants = ((() => {
   return {
-    appRev: "2.0"
+    appRev: "2.1"
   };
 })());

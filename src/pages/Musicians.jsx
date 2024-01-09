@@ -1,7 +1,6 @@
 import React from 'react';
 import {useParams} from 'react-router';
 import {useNavigate} from 'react-router-dom';
-import {Chrono} from 'react-chrono';
 import Container from 'react-bootstrap/Container';
 
 import {Footer, ErrorPage} from '../components';
@@ -14,12 +13,7 @@ export const Musicians = () => {
   const [data, loading, error] = loadDesc(key);
   const name = dataService.getNameByKey(key);
   const navigate = useNavigate();
-
-  const switchToMusician = ((timelineItem) => {
-    navigate("/" + key + "/musicians/" + timelineItem.cardTitle);
-  })
-
-  // noinspection JSVoidFunctionReturnValueUsed
+// noinspection JSVoidFunctionReturnValueUsed
   return (
     <>
       {loading ? "loading..." :
@@ -31,22 +25,18 @@ export const Musicians = () => {
             {HeaderBand("musicians", key, name, navigate)}
             <br/> <br/>
             <h1>Musicians</h1>
-            <div className="row overflow-auto mx-auto hide-scrollbar mt-2">
-              <Chrono
-                items={dataService.getMusicians().map((musician) =>
-                  ({
-                    title: musician.name,
-                    cardTitle: musician.name,
-                    cardSubtitle: musician.info,
-                    media: {type: "IMAGE", source: {url: musician.img}}
-                  }))}
-                mode="VERTICAL_ALTERNATING"
-                scrollable
-                hideControls
-                mediaHeight={150}
-                onItemSelected={switchToMusician}
-                activeItemIndex='-1' // no item selected!!
-              />
+            <div className="list-group mt-2">
+              {dataService.getMusicians()
+                .sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
+                .map(musician => (
+                <a href={`../${key}/musicians/${musician.name}`}
+                  className="list-group-item list-group-item-action" aria-current="true">
+                  <div className="d-flex w-100 justify-content-between">
+                    <h5 className="mb-1 text-primary">{musician.name}</h5>
+                  </div>
+                  <p className="mb-1 text-start">{musician.info}</p>
+                </a>
+                ))}
             </div>
             <br/>
             <br/>
