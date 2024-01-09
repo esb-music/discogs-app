@@ -43,6 +43,7 @@ export const Musicians = () => {
                 mode="VERTICAL_ALTERNATING"
                 scrollable
                 hideControls
+                mediaHeight={150}
                 onItemSelected={switchToMusician}
                 activeItemIndex='-1' // no item selected!!
               />
